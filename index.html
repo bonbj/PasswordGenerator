@@ -9,7 +9,47 @@
     <!-- bootstrap -->
     <link rel="stylesheet" href="./css/bootstrap.min.css">
 </head>
-<body>
+<body class="bg-info">
+    <div class="container border border-success">
+        <h1 class="title text-uppercase text-center">Gerador de senha</h1>
+        <p class="text-center text-warning">Se não houver opção marcado, por padrão letras minúsculas são ativados.</p>
+        <div class="d-flex justify-content-around">
+            <div class="alert alert-dark">
+                <input type="checkbox" id="number">
+                <label for="number">Números</label>
+            </div>
+            <div class="alert alert-dark">
+                <input type="checkbox" id="lower" checked>
+                <label for="lower">Minúsculo</label>
+            </div>
+            <div class="alert alert-dark">
+                <input type="checkbox" id="upper">
+                <label for="upper">Maiúsculo</label>
+            </div>
+            <div class="alert alert-dark">
+                <input type="checkbox" id="other">
+                <label for="other">Símbolos</label>
+            </div>
+        </div>
+        <h4 class="text-center title">Digite o tamanho da senha.</h4>
+        <div class="row">
+            <div class="col"></div>
+            <div class="col">
+                <input type="number" class="form-control" min="8" max="50" value="8">
+            </div>
+            <div class="col"></div>
+        </div>
+        <h4 class="text-center title">A senha gerada foi:</h4>
+        <p id="password" class="alert alert-primary text-center"></p>
+        <div class="row">
+            <div class="col"></div>
+            <div class="col">
+                <button type="button" class="btn btn-primary btn-lg btn-block">Gerar senha</button>
+            </div>
+            <div class="col"><button type="button" class="btn btn-secondary">Copiar</button></div>
+        </div>
+        
+    </div>
     <!-- jquery -->
     <script src="./js/jquery-3.4.1.min.js"></script>
     <!-- bootstrap -->

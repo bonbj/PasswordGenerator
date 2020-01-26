@@ -51,4 +51,4 @@ key = (measure,number,lower,upper,other) => {
 }
 
 //call the password
-key(20,true,true,true,true);
+key(50,true,true,true,true);
