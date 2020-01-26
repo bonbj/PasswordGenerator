@@ -1,6 +1,6 @@
 #   Password Generator
 
-A site for Studin [link](https://bonbj.github.io/PasswordGenerator/)
+A site for study [link](https://bonbj.github.io/PasswordGenerator/)
 
 ### Random password
 
