@@ -15,27 +15,28 @@
         <p class="text-center text-warning">Se não houver opção marcado, por padrão letras minúsculas são ativados.</p>
         <div class="d-flex justify-content-around">
             <div class="alert alert-dark">
-                <input type="checkbox" id="number">
+                <input type="checkbox" id="number" name="number" checked>
                 <label for="number">Números</label>
             </div>
-            <div class="alert alert-dark">
-                <input type="checkbox" id="lower" checked>
+            <div class="alert alert-dark"> 
+                <input type="checkbox" id="lower" name="lower" checked>
                 <label for="lower">Minúsculo</label>
             </div>
             <div class="alert alert-dark">
-                <input type="checkbox" id="upper">
+                <input type="checkbox" id="upper" name="upper" checked>
                 <label for="upper">Maiúsculo</label>
             </div>
             <div class="alert alert-dark">
-                <input type="checkbox" id="other">
+                <input type="checkbox" id="other" name="other" checked>
                 <label for="other">Símbolos</label>
             </div>
         </div>
         <h4 class="text-center title">Digite o tamanho da senha.</h4>
+        <p class="text-center text-warning">O tamanho da senha deve ser de 8 até 50</p>
         <div class="row">
             <div class="col"></div>
             <div class="col">
-                <input type="number" class="form-control" min="8" max="50" value="8">
+                <input type="number" class="form-control" id="lenght" min="8" max="50" value="20">
             </div>
             <div class="col"></div>
         </div>
@@ -44,9 +45,9 @@
         <div class="row">
             <div class="col"></div>
             <div class="col">
-                <button type="button" class="btn btn-primary btn-lg btn-block">Gerar senha</button>
+                <button type="button" class="btn btn-primary btn-lg btn-block" onclick="key()">Gerar senha</button>
             </div>
-            <div class="col"><button type="button" class="btn btn-secondary">Copiar</button></div>
+            <div class="col"></div>
         </div>
         
     </div>

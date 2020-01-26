@@ -1,5 +1,10 @@
 //get div code
 const password = document.getElementById('password');
+const generator = document.getElementById('generator');
+let numberDiv = document.getElementsByName('number');
+let lowerDiv = document.getElementsByName('lower');
+let upperDiv = document.getElementsByName('upper');
+let otherDiv = document.getElementsByName('other');
 
 //random integer
 getRandomNum = (lbound, ubound) => {
@@ -7,7 +12,7 @@ getRandomNum = (lbound, ubound) => {
 }
 
 //random character
-getRandomChar = (number,lower,upper,other) => {
+getRandomChar = () => {
 
   //options
   const numberChars = "0123456789";
@@ -18,32 +23,45 @@ getRandomChar = (number,lower,upper,other) => {
   let charSet = "";
 
   //filter
-  if(number === true){
+  if(numberDiv[0].checked === true){
     charSet = charSet + numberChars;
   }
 
-  if(lower === true){
-    charSet = charSet + lowerChars;
-  }
-
-  if(upper === true){
+  if(upperDiv[0].checked === true){
     charSet = charSet + upperChars;
   }
 
-  if(other === true){
+  if(otherDiv[0].checked === true){
     charSet = charSet + otherChars;
+  }
+
+  if(lowerDiv[0].checked === true){
+    charSet = charSet + lowerChars;
+  }else{
+    if(charSet.length === 0){
+      charSet = charSet + lowerChars;
+    }
   }
   
   return charSet.charAt(getRandomNum(0, charSet.length));
 }
 
 //password
-key = (measure,number,lower,upper,other) => {
+key = () => {
+  const measure = document.getElementById('lenght').value;
+
+  //prevent password small or big
+  if(measure < 8){
+    measure = 8;
+  }
+  if(measure > 50){
+    measure = 50;
+  }
 
   //generate password by length
   let srt = "";
   for(let i=0;i<measure;i++){
-    srt=srt+ getRandomChar(number,lower,upper,other);
+    srt=srt+ getRandomChar();
   }
 
   //show in html
@@ -51,4 +69,4 @@ key = (measure,number,lower,upper,other) => {
 }
 
 //call the password
-key(50,true,true,true,true);
+key();
