@@ -18,7 +18,7 @@ getRandomChar = () => {
   const numberChars = "0123456789";
   const lowerChars = "abcdefghijklmnopqrstuvwxyz";
   const upperChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-  const otherChars = "`~!@#$%^&*()-_=+[{]}\\|;:'\",./?";
+  const otherChars = "`~!@#$%^&*()->_=+[{]}\\|;:'<\",./?";
 
   let charSet = "";
 
@@ -61,7 +61,14 @@ key = () => {
   //generate password by length
   let srt = "";
   for(let i=0;i<measure;i++){
-    srt=srt+ getRandomChar();
+    let temp = getRandomChar();
+    if(temp === "<"){
+      srt=srt+"&lt;";
+    }else if(temp === ">"){
+      srt=srt+"&gt;";
+    }else{
+      srt=srt+temp;
+    }
   }
 
   //show in html
