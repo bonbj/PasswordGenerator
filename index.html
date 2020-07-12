@@ -13,7 +13,7 @@
 <body class="bg-info">
     <div class="container border border-success">
         <h1 class="title text-uppercase text-center">Gerador de senha</h1>
-        <p class="text-center text-warning">Se não houver opção marcado, por padrão letras minúsculas são ativados.</p>
+        <p class="text-center text-warning">Se não houver opção marcado ou apenas o espaço estiver marcado, por padrão letras minúsculas são ativados.</p>
         <div class="d-flex justify-content-around">
             <div class="alert alert-dark">
                 <input type="checkbox" id="number" name="number" checked>
@@ -30,6 +30,10 @@
             <div class="alert alert-dark">
                 <input type="checkbox" id="other" name="other" checked>
                 <label for="other">Símbolos</label>
+            </div>
+            <div class="alert alert-dark">
+                <input type="checkbox" id="space" name="space">
+                <label for="space">Espaço</label>
             </div>
         </div>
         <h4 class="text-center title">Digite o tamanho da senha.</h4>

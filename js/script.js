@@ -5,6 +5,7 @@ let numberDiv = document.getElementsByName('number');
 let lowerDiv = document.getElementsByName('lower');
 let upperDiv = document.getElementsByName('upper');
 let otherDiv = document.getElementsByName('other');
+let spaceDiv = document.getElementsByName('space');
 
 //random integer
 getRandomNum = (lbound, ubound) => {
@@ -19,6 +20,7 @@ getRandomChar = () => {
   const lowerChars = "abcdefghijklmnopqrstuvwxyz";
   const upperChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
   const otherChars = "`~!@#$%^&*()->_=+[{]}\\|;:'<\",./?";
+  const spaceSimbol = " ";
 
   let charSet = "";
 
@@ -35,10 +37,14 @@ getRandomChar = () => {
     charSet = charSet + otherChars;
   }
 
+  if(spaceDiv[0].checked === true){
+    charSet = charSet + spaceSimbol;
+  }
+
   if(lowerDiv[0].checked === true){
     charSet = charSet + lowerChars;
   }else{
-    if(charSet.length === 0){
+    if(charSet.length < 2){
       charSet = charSet + lowerChars;
     }
   }
