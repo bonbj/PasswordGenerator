@@ -44,7 +44,7 @@ getRandomChar = () => {
   if(lowerDiv[0].checked === true){
     charSet = charSet + lowerChars;
   }else{
-    if(charSet.length < 2){
+    if(charSet.length === 0 || charSet === " "){
       charSet = charSet + lowerChars;
     }
   }
