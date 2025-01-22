@@ -1,0 +1,7 @@
+{
+  "name": "LockKey",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
