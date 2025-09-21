@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { PasswordStore, SavedPassword } from '../../storage/password.store';
+import { SimpleStorageService, SavedPassword } from '../../storage/simple-storage.service';
 
 @Component({
   selector: 'app-password-list',
@@ -10,19 +10,21 @@ export class PasswordListPage implements OnInit {
   passwords: SavedPassword[] = [];
   searchQuery: string = '';
 
-  constructor(private passwordStore: PasswordStore) {}
+  constructor(private storageService: SimpleStorageService) {}
 
   ngOnInit() {
     this.loadPasswords();
   }
 
   loadPasswords() {
-    this.passwords = this.passwordStore.savedPasswords;
+    this.storageService.passwords$.subscribe(passwords => {
+      this.passwords = passwords;
+    });
   }
 
   searchPasswords() {
     if (this.searchQuery.trim()) {
-      this.passwords = this.passwordStore.searchPasswords(this.searchQuery);
+      this.passwords = this.storageService.searchPasswords(this.searchQuery);
     } else {
       this.loadPasswords();
     }
@@ -30,8 +32,7 @@ export class PasswordListPage implements OnInit {
 
   deletePassword(id: string) {
     if (confirm('Tem certeza que deseja excluir esta senha?')) {
-      this.passwordStore.deletePassword(id);
-      this.loadPasswords();
+      this.storageService.deletePassword(id);
     }
   }
 

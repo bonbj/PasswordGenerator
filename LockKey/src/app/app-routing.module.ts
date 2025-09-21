@@ -7,6 +7,14 @@ const routes: Routes = [
     loadChildren: () => import('../pages/home/home.module').then( m => m.HomePageModule)
   },
   {
+    path: 'generate-password',
+    loadChildren: () => import('../pages/generate-password/generate-password.module').then( m => m.GeneratePasswordPageModule)
+  },
+  {
+    path: 'password-list',
+    loadChildren: () => import('../pages/password-list/password-list.module').then( m => m.PasswordListPageModule)
+  },
+  {
     path: '',
     redirectTo: 'home',
     pathMatch: 'full'

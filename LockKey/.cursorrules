@@ -93,10 +93,28 @@ src/
 - Evitar mutações diretas fora de actions
 
 ### Ionic
-- Usar componentes Ionic nativos
+- **SEMPRE usar componentes Ionic nativos** - Nunca criar componentes HTML customizados quando existe equivalente no Ionic
 - Implementar lifecycle hooks apropriados
 - Usar Ionic Router para navegação
 - Seguir padrões de UX do Ionic
+- Preferir componentes Ionic sobre elementos HTML nativos
+
+### Componentes Ionic Obrigatórios
+- **Formulários**: Usar `ion-input`, `ion-textarea`, `ion-select`, `ion-checkbox`, `ion-radio`, `ion-toggle`
+- **Navegação**: Usar `ion-nav`, `ion-router-outlet`, `ion-tab-bar`, `ion-menu`
+- **Layout**: Usar `ion-grid`, `ion-row`, `ion-col`, `ion-card`, `ion-list`, `ion-item`
+- **Feedback**: Usar `ion-button`, `ion-fab`, `ion-chip`, `ion-badge`, `ion-progress-bar`
+- **Modais**: Usar `ion-modal`, `ion-popover`, `ion-alert`, `ion-action-sheet`, `ion-toast`
+- **Navegação de Lista**: Usar `ion-searchbar`, `ion-infinite-scroll`, `ion-refresher`
+- **Data/Time**: Usar `ion-datetime`, `ion-picker`
+- **Outros**: Usar `ion-avatar`, `ion-icon`, `ion-img`, `ion-skeleton-text`
+
+### Regras de Componentes Ionic
+- **NUNCA usar**: `<input>`, `<button>`, `<div>` para layout, `<ul>/<li>` para listas
+- **SEMPRE usar**: `<ion-input>`, `<ion-button>`, `<ion-grid>/<ion-row>/<ion-col>`, `<ion-list>/<ion-item>`
+- **Importar corretamente**: Sempre importar componentes Ionic no módulo
+- **Usar propriedades Ionic**: Usar `color`, `fill`, `size`, `shape` do Ionic
+- **Acessibilidade**: Componentes Ionic já incluem acessibilidade nativa
 
 ## Estrutura de Arquivos
 
@@ -258,6 +276,89 @@ export * from './password.store';
 - Explicar padrões utilizados
 - Documentar convenções de código
 
+## Exemplos de Uso - Componentes Ionic
+
+### ❌ NUNCA Fazer
+```html
+<!-- ERRADO - Usar HTML nativo -->
+<input type="text" placeholder="Digite aqui">
+<button>Clique aqui</button>
+<div class="card">
+  <ul>
+    <li>Item 1</li>
+    <li>Item 2</li>
+  </ul>
+</div>
+```
+
+### ✅ SEMPRE Fazer
+```html
+<!-- CORRETO - Usar componentes Ionic -->
+<ion-input placeholder="Digite aqui"></ion-input>
+<ion-button>Clique aqui</ion-button>
+<ion-card>
+  <ion-list>
+    <ion-item>Item 1</ion-item>
+    <ion-item>Item 2</ion-item>
+  </ion-list>
+</ion-card>
+```
+
+### Exemplos de Componentes por Categoria
+
+#### Formulários
+```html
+<ion-item>
+  <ion-label position="stacked">Nome</ion-label>
+  <ion-input [(ngModel)]="nome"></ion-input>
+</ion-item>
+
+<ion-item>
+  <ion-label>Ativo</ion-label>
+  <ion-checkbox [(ngModel)]="ativo"></ion-checkbox>
+</ion-item>
+
+<ion-item>
+  <ion-label>Gênero</ion-label>
+  <ion-select [(ngModel)]="genero">
+    <ion-select-option value="m">Masculino</ion-select-option>
+    <ion-select-option value="f">Feminino</ion-select-option>
+  </ion-select>
+</ion-item>
+```
+
+#### Layout
+```html
+<ion-grid>
+  <ion-row>
+    <ion-col size="6">
+      <ion-card>
+        <ion-card-header>
+          <ion-card-title>Título</ion-card-title>
+        </ion-card-header>
+        <ion-card-content>
+          Conteúdo aqui
+        </ion-card-content>
+      </ion-card>
+    </ion-col>
+  </ion-row>
+</ion-grid>
+```
+
+#### Navegação
+```html
+<ion-tab-bar>
+  <ion-tab-button tab="home">
+    <ion-icon name="home"></ion-icon>
+    <ion-label>Home</ion-label>
+  </ion-tab-button>
+  <ion-tab-button tab="settings">
+    <ion-icon name="settings"></ion-icon>
+    <ion-label>Configurações</ion-label>
+  </ion-tab-button>
+</ion-tab-bar>
+```
+
 ## Comandos Úteis
 
 ### Desenvolvimento
@@ -294,10 +395,12 @@ npm install --save-dev @types/mobx
 
 ### Ao Implementar
 - [ ] Seguir padrões de nomenclatura
+- [ ] **SEMPRE usar componentes Ionic nativos** (nunca HTML nativo)
 - [ ] Implementar tratamento de erros
 - [ ] Adicionar validações necessárias
 - [ ] Escrever testes unitários
 - [ ] Documentar código complexo
+- [ ] Verificar se todos os elementos HTML têm equivalente Ionic
 
 ### Antes de Fazer Commit
 - [ ] Executar testes

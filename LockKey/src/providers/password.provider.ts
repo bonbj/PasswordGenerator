@@ -6,6 +6,7 @@ export interface PasswordOptions {
   includeLowercase: boolean;
   includeNumbers: boolean;
   includeSymbols: boolean;
+  includeSpaces: boolean;
   excludeSimilar: boolean;
   excludeAmbiguous: boolean;
 }
@@ -18,6 +19,7 @@ export class PasswordProvider {
   private readonly LOWERCASE = 'abcdefghijklmnopqrstuvwxyz';
   private readonly NUMBERS = '0123456789';
   private readonly SYMBOLS = '!@#$%^&*()_+-=[]{}|;:,.<>?';
+  private readonly SPACES = ' ';
   private readonly SIMILAR_CHARS = 'il1Lo0O';
   private readonly AMBIGUOUS_CHARS = '{}[]()/\\\'"`~,;.<>';
 
@@ -35,6 +37,9 @@ export class PasswordProvider {
     }
     if (options.includeSymbols) {
       charset += this.SYMBOLS;
+    }
+    if (options.includeSpaces) {
+      charset += this.SPACES;
     }
 
     // Remover caracteres similares se solicitado
@@ -99,6 +104,13 @@ export class PasswordProvider {
       score += 1;
     } else {
       feedback.push('Adicione símbolos especiais');
+    }
+
+    // Verificar espaços
+    if (/\s/.test(password)) {
+      score += 1;
+    } else {
+      feedback.push('Considere adicionar espaços');
     }
 
     // Verificar sequências comuns
