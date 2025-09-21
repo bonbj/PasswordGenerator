@@ -1,0 +1,306 @@
+# Cursor Rules - PasswordGenerator Ionic Project
+
+## Arquitetura do Projeto
+
+Este projeto segue uma arquitetura bem definida com separação clara de responsabilidades:
+
+```
+src/
+├── app/                    # Configuração principal do Angular
+├── components/             # Componentes reutilizáveis do Angular
+├── pages/                  # Páginas da aplicação Ionic
+├── providers/             # Regras de negócio e lógica
+├── services/              # Conexões com APIs e serviços externos
+└── storage/               # Gerenciamento de estado com MobX
+```
+
+## Regras de Desenvolvimento
+
+### 1. Providers (Regras de Negócio)
+- **Localização**: `src/providers/`
+- **Responsabilidade**: Lógica de negócio, validações, cálculos
+- **Padrão**: Classes injetáveis com `@Injectable({ providedIn: 'root' })`
+- **Exemplos**: `PasswordProvider`, `ValidationProvider`
+- **Regras**:
+  - Não devem fazer requisições HTTP diretamente
+  - Devem ser puros e testáveis
+  - Usar interfaces para definir contratos
+  - Exportar no `index.ts` da pasta
+
+### 2. Services (Conexões com APIs)
+- **Localização**: `src/services/`
+- **Responsabilidade**: Comunicação com APIs externas, autenticação
+- **Padrão**: Classes injetáveis com `@Injectable({ providedIn: 'root' })`
+- **Exemplos**: `ApiService`, `AuthService`
+- **Regras**:
+  - Usar HttpClient para requisições
+  - Implementar tratamento de erros
+  - Usar interfaces para tipagem de dados
+  - Exportar no `index.ts` da pasta
+
+### 3. Storage (MobX - Gerenciamento de Estado)
+- **Localização**: `src/storage/`
+- **Responsabilidade**: Gerenciamento de estado reativo, persistência
+- **Padrão**: Classes MobX com `makeAutoObservable`
+- **Exemplos**: `AppStore`, `PasswordStore`
+- **Regras**:
+  - Usar `makeAutoObservable` no constructor
+  - Implementar actions para modificar estado
+  - Usar getters para dados computados
+  - Persistir automaticamente no localStorage
+  - Exportar stores no `stores.config.ts`
+
+### 4. Components (Componentes Angular)
+- **Localização**: `src/components/`
+- **Responsabilidade**: Componentes reutilizáveis
+- **Padrão**: Componentes Angular com `@Component`
+- **Estrutura**: Pasta por componente com `.ts`, `.html`, `.scss`
+- **Regras**:
+  - Usar OnPush change detection quando possível
+  - Injetar stores do MobX para estado
+  - Usar providers para lógica de negócio
+  - Implementar interfaces para inputs/outputs
+
+### 5. Pages (Páginas Ionic)
+- **Localização**: `src/pages/`
+- **Responsabilidade**: Páginas da aplicação
+- **Padrão**: Páginas Ionic com `@Component`
+- **Estrutura**: Pasta por página com `.ts`, `.html`, `.scss`
+- **Regras**:
+  - Usar lifecycle hooks do Ionic
+  - Injetar stores para estado global
+  - Usar services para dados externos
+  - Implementar navegação com Ionic Router
+
+## Convenções de Código
+
+### TypeScript
+- Usar interfaces para definir contratos
+- Tipar todas as variáveis e funções
+- Usar enums para constantes relacionadas
+- Preferir `const` sobre `let`
+
+### Angular
+- Usar `OnPush` change detection em componentes
+- Implementar `OnInit`, `OnDestroy` quando necessário
+- Usar `async` pipe para observables
+- Injetar dependências no constructor
+
+### MobX
+- Usar `makeAutoObservable` em stores
+- Implementar actions para modificar estado
+- Usar computed para valores derivados
+- Evitar mutações diretas fora de actions
+
+### Ionic
+- Usar componentes Ionic nativos
+- Implementar lifecycle hooks apropriados
+- Usar Ionic Router para navegação
+- Seguir padrões de UX do Ionic
+
+## Estrutura de Arquivos
+
+### Providers
+```typescript
+// src/providers/meu-provider.ts
+import { Injectable } from '@angular/core';
+
+export interface MeuInterface {
+  // definir interface
+}
+
+@Injectable({
+  providedIn: 'root'
+})
+export class MeuProvider {
+  // implementar lógica
+}
+```
+
+### Services
+```typescript
+// src/services/meu-service.ts
+import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
+
+@Injectable({
+  providedIn: 'root'
+})
+export class MeuService {
+  constructor(private http: HttpClient) {}
+
+  // implementar métodos HTTP
+}
+```
+
+### Stores (MobX)
+```typescript
+// src/storage/meu-store.ts
+import { makeAutoObservable } from 'mobx';
+
+export class MeuStore {
+  // estado
+  data: any[] = [];
+
+  constructor() {
+    makeAutoObservable(this);
+  }
+
+  // actions
+  setData(data: any[]) {
+    this.data = data;
+  }
+
+  // getters
+  get dataCount() {
+    return this.data.length;
+  }
+}
+```
+
+### Components
+```typescript
+// src/components/meu-component/meu-component.component.ts
+import { Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy } from '@angular/core';
+
+@Component({
+  selector: 'app-meu-component',
+  templateUrl: './meu-component.component.html',
+  styleUrls: ['./meu-component.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
+})
+export class MeuComponent implements OnInit {
+  constructor() {}
+
+  ngOnInit() {
+    // implementar lógica
+  }
+}
+```
+
+## Imports e Exports
+
+### Sempre usar index.ts para exports
+```typescript
+// src/providers/index.ts
+export * from './password.provider';
+export * from './validation.provider';
+
+// src/services/index.ts
+export * from './api.service';
+export * from './auth.service';
+
+// src/storage/index.ts
+export * from './app.store';
+export * from './password.store';
+```
+
+### Imports relativos
+- Usar imports relativos para arquivos do mesmo módulo
+- Usar imports absolutos para arquivos de outros módulos
+- Sempre importar de `index.ts` quando disponível
+
+## Testes
+
+### Estrutura de Testes
+- Testes unitários para providers e services
+- Testes de integração para stores
+- Testes de componentes para UI
+- Usar Jasmine e Karma (padrão Angular)
+
+### Convenções de Teste
+- Nome do arquivo: `*.spec.ts`
+- Localização: Mesmo diretório do arquivo testado
+- Usar `describe` para agrupar testes
+- Usar `it` para casos de teste individuais
+
+## Performance
+
+### Otimizações
+- Usar `OnPush` change detection
+- Implementar `trackBy` em `*ngFor`
+- Usar `async` pipe para observables
+- Lazy loading para módulos
+- OnPush strategy para componentes
+
+### MobX
+- Usar `computed` para valores derivados
+- Evitar reações desnecessárias
+- Usar `runInAction` para múltiplas mutações
+
+## Segurança
+
+### Validações
+- Sempre validar inputs do usuário
+- Usar providers de validação
+- Sanitizar dados antes de exibir
+- Implementar rate limiting para APIs
+
+### Dados Sensíveis
+- Nunca armazenar senhas em texto plano
+- Usar criptografia para dados sensíveis
+- Implementar timeout para sessões
+- Validar tokens de autenticação
+
+## Documentação
+
+### Comentários
+- Documentar funções públicas
+- Explicar lógica complexa
+- Usar JSDoc para APIs
+- Manter README atualizado
+
+### Arquitetura
+- Documentar decisões arquiteturais
+- Manter diagramas atualizados
+- Explicar padrões utilizados
+- Documentar convenções de código
+
+## Comandos Úteis
+
+### Desenvolvimento
+```bash
+# Instalar dependências
+npm install
+
+# Executar em modo desenvolvimento
+ionic serve
+
+# Executar testes
+npm test
+
+# Build para produção
+ionic build --prod
+```
+
+### MobX
+```bash
+# Instalar MobX
+npm install mobx mobx-angular
+
+# Instalar types (se necessário)
+npm install --save-dev @types/mobx
+```
+
+## Checklist de Desenvolvimento
+
+### Antes de Criar um Novo Arquivo
+- [ ] Verificar se já existe funcionalidade similar
+- [ ] Escolher a pasta correta (providers/services/storage/components/pages)
+- [ ] Definir interfaces necessárias
+- [ ] Planejar responsabilidades
+
+### Ao Implementar
+- [ ] Seguir padrões de nomenclatura
+- [ ] Implementar tratamento de erros
+- [ ] Adicionar validações necessárias
+- [ ] Escrever testes unitários
+- [ ] Documentar código complexo
+
+### Antes de Fazer Commit
+- [ ] Executar testes
+- [ ] Verificar linting
+- [ ] Testar funcionalidade
+- [ ] Atualizar documentação se necessário

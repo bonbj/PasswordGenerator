@@ -4,6 +4,7 @@
   "compilerOptions": {
     "baseUrl": "./",
     "outDir": "./dist/out-tsc",
+    "typeRoots": ["./node_modules/@types", "./src/types"],
     "forceConsistentCasingInFileNames": true,
     "strict": true,
     "noImplicitOverride": true,
@@ -19,8 +20,9 @@
     "target": "es2022",
     "module": "es2020",
     "lib": [
-      "es2018", 
-      "dom"
+      "es2022", 
+      "dom",
+      "dom.iterable"
     ],
     "useDefineForClassFields": false
   },
