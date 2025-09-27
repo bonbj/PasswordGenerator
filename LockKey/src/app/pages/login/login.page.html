@@ -1,0 +1,56 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Login</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="login-content">
+  <div class="login-container">
+    <ion-card class="login-card">
+      <ion-card-header>
+        <ion-card-title>Bem-vindo ao PasswordGenerator</ion-card-title>
+        <ion-card-subtitle>Faça login com sua conta Google para sincronizar suas senhas</ion-card-subtitle>
+      </ion-card-header>
+
+      <ion-card-content>
+        <!-- Informações sobre o Google Drive -->
+        <div class="info-section">
+          <ion-icon name="cloud-outline" color="primary" size="large"></ion-icon>
+          <h3>Google Drive Integration</h3>
+          <p>Suas senhas serão salvas de forma segura no seu Google Drive, permitindo acesso de qualquer dispositivo.</p>
+        </div>
+
+        <!-- Botão de Login -->
+        <ion-button 
+          expand="block" 
+          size="large"
+          (click)="signInWithGoogle()"
+          [disabled]="isLoading"
+          class="google-login-btn">
+          <ion-icon name="logo-google" slot="start"></ion-icon>
+          {{ isLoading ? 'Entrando...' : 'Entrar com Google' }}
+        </ion-button>
+
+        <!-- Informações de privacidade -->
+        <div class="privacy-info">
+          <ion-icon name="shield-checkmark-outline" color="success"></ion-icon>
+          <p><small>Suas senhas são criptografadas e armazenadas apenas no seu Google Drive pessoal.</small></p>
+        </div>
+
+        <!-- Opção de continuar sem login -->
+        <ion-button 
+          expand="block" 
+          fill="outline"
+          (click)="continueWithoutLogin()"
+          [disabled]="isLoading"
+          class="continue-btn">
+          <ion-icon name="eye-off-outline" slot="start"></ion-icon>
+          Continuar sem sincronização
+        </ion-button>
+      </ion-card-content>
+    </ion-card>
+
+    <!-- Loading spinner -->
+    <ion-spinner *ngIf="isLoading" name="crescent"></ion-spinner>
+  </div>
+</ion-content>

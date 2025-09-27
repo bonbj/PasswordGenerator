@@ -1,0 +1,158 @@
+.login-content {
+  --background: var(--ion-color-light);
+}
+
+.login-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 100%;
+  padding: 20px;
+}
+
+.login-card {
+  max-width: 400px;
+  width: 100%;
+  margin: 0 auto;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  border-radius: 12px;
+}
+
+.info-section {
+  text-align: center;
+  margin: 20px 0;
+  padding: 20px;
+  background: var(--ion-color-light);
+  border-radius: 8px;
+  border: 1px solid var(--ion-color-light-shade);
+}
+
+.info-section ion-icon {
+  font-size: 48px;
+  margin-bottom: 16px;
+}
+
+.info-section h3 {
+  margin: 16px 0 8px 0;
+  color: var(--ion-color-primary);
+  font-weight: 600;
+}
+
+.info-section p {
+  margin: 0;
+  color: var(--ion-color-medium);
+  line-height: 1.5;
+}
+
+.google-login-btn {
+  --background: #4285f4;
+  --background-hover: #3367d6;
+  --color: white;
+  --border-radius: 8px;
+  --padding-top: 16px;
+  --padding-bottom: 16px;
+  margin: 20px 0;
+  font-weight: 600;
+  text-transform: none;
+  letter-spacing: 0.5px;
+}
+
+.google-login-btn:hover {
+  --background: #3367d6;
+}
+
+.privacy-info {
+  display: flex;
+  align-items: center;
+  margin: 16px 0;
+  padding: 12px;
+  background: var(--ion-color-success-tint);
+  border-radius: 6px;
+  border-left: 4px solid var(--ion-color-success);
+}
+
+.privacy-info ion-icon {
+  margin-right: 8px;
+  font-size: 20px;
+}
+
+.privacy-info p {
+  margin: 0;
+  color: var(--ion-color-success-shade);
+  font-size: 12px;
+  line-height: 1.4;
+}
+
+.continue-btn {
+  --color: var(--ion-color-medium);
+  --border-color: var(--ion-color-medium);
+  --border-radius: 8px;
+  --padding-top: 12px;
+  --padding-bottom: 12px;
+  margin-top: 8px;
+  font-weight: 500;
+  text-transform: none;
+}
+
+.continue-btn:hover {
+  --background: var(--ion-color-light);
+  --color: var(--ion-color-dark);
+}
+
+ion-spinner {
+  margin-top: 20px;
+  --color: var(--ion-color-primary);
+}
+
+// Responsividade
+@media (max-width: 768px) {
+  .login-container {
+    padding: 16px;
+  }
+  
+  .login-card {
+    margin: 0;
+  }
+  
+  .info-section {
+    padding: 16px;
+  }
+  
+  .info-section ion-icon {
+    font-size: 40px;
+  }
+}
+
+// Animações
+.login-card {
+  animation: slideInUp 0.5s ease-out;
+}
+
+@keyframes slideInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.google-login-btn {
+  transition: all 0.3s ease;
+}
+
+.google-login-btn:not([disabled]):hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(66, 133, 244, 0.3);
+}
+
+.continue-btn {
+  transition: all 0.3s ease;
+}
+
+.continue-btn:not([disabled]):hover {
+  transform: translateY(-1px);
+}

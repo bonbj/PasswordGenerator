@@ -59,6 +59,13 @@ export class GeneratePasswordPage implements OnInit {
     }
   }
 
+  getMaskedPassword(): string {
+    if (!this.password) {
+      return '';
+    }
+    return '•'.repeat(this.password.length);
+  }
+
   onLengthChange(event: any) {
     const value = event.detail.value;
     if (typeof value === 'number') {

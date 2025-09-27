@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
+import { GoogleDriveService } from '../services/google-drive.service';
+import { GoogleAuthService } from '../services/google-auth.service';
 
 export interface User {
   id: string;
@@ -34,8 +36,14 @@ export class SimpleStorageService {
   public user$ = this.userSubject.asObservable();
   public passwords$ = this.passwordsSubject.asObservable();
 
-  constructor() {
+  private useGoogleDrive = false;
+
+  constructor(
+    private googleDrive: GoogleDriveService,
+    private googleAuth: GoogleAuthService
+  ) {
     this.loadFromStorage();
+    this.checkGoogleDriveAvailability();
   }
 
   // Métodos para usuário
@@ -160,6 +168,105 @@ export class SimpleStorageService {
       }
     } catch (error) {
       console.error('Erro ao carregar do localStorage:', error);
+    }
+  }
+
+  // Métodos para integração com Google Drive
+  private async checkGoogleDriveAvailability(): Promise<void> {
+    this.useGoogleDrive = this.googleAuth.isAuthenticated() && this.googleDrive.isAvailable();
+  }
+
+  async enableGoogleDriveSync(): Promise<void> {
+    try {
+      await this.googleDrive.initialize();
+      this.useGoogleDrive = true;
+      
+      // Sincroniza dados existentes com o Drive
+      await this.syncToGoogleDrive();
+    } catch (error) {
+      console.error('Erro ao habilitar sincronização com Google Drive:', error);
+      throw error;
+    }
+  }
+
+  disableGoogleDriveSync(): void {
+    this.useGoogleDrive = false;
+  }
+
+  isGoogleDriveEnabled(): boolean {
+    return this.useGoogleDrive;
+  }
+
+  async syncToGoogleDrive(): Promise<void> {
+    if (!this.useGoogleDrive) return;
+
+    try {
+      const passwords = this.passwordsSubject.value;
+      await this.googleDrive.savePasswords(passwords);
+    } catch (error) {
+      console.error('Erro ao sincronizar com Google Drive:', error);
+      throw error;
+    }
+  }
+
+  async loadFromGoogleDrive(): Promise<void> {
+    if (!this.useGoogleDrive) return;
+
+    try {
+      const passwords = await this.googleDrive.loadPasswords();
+      this.passwordsSubject.next(passwords);
+      
+      // Salva também no localStorage como backup
+      this.saveToStorage(this.STORAGE_KEYS.PASSWORDS, passwords);
+    } catch (error) {
+      console.error('Erro ao carregar do Google Drive:', error);
+      throw error;
+    }
+  }
+
+  // Sobrescrever métodos existentes para incluir sincronização
+  async savePasswordWithSync(passwordData: Omit<SavedPassword, 'id' | 'createdAt' | 'updatedAt'>): Promise<void> {
+    // Salva localmente
+    this.savePassword(passwordData);
+    
+    // Sincroniza com Google Drive se habilitado
+    if (this.useGoogleDrive) {
+      try {
+        await this.syncToGoogleDrive();
+      } catch (error) {
+        console.error('Erro ao sincronizar senha com Google Drive:', error);
+        // Continua mesmo se a sincronização falhar
+      }
+    }
+  }
+
+  async updatePasswordWithSync(id: string, updates: Partial<Omit<SavedPassword, 'id' | 'createdAt'>>): Promise<void> {
+    // Atualiza localmente
+    this.updatePassword(id, updates);
+    
+    // Sincroniza com Google Drive se habilitado
+    if (this.useGoogleDrive) {
+      try {
+        await this.syncToGoogleDrive();
+      } catch (error) {
+        console.error('Erro ao sincronizar atualização com Google Drive:', error);
+        // Continua mesmo se a sincronização falhar
+      }
+    }
+  }
+
+  async deletePasswordWithSync(id: string): Promise<void> {
+    // Deleta localmente
+    this.deletePassword(id);
+    
+    // Sincroniza com Google Drive se habilitado
+    if (this.useGoogleDrive) {
+      try {
+        await this.syncToGoogleDrive();
+      } catch (error) {
+        console.error('Erro ao sincronizar exclusão com Google Drive:', error);
+        // Continua mesmo se a sincronização falhar
+      }
     }
   }
 }
